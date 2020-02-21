@@ -1,0 +1,12 @@
+name: lint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: make install
+      - name: lint
+        run: make lint
