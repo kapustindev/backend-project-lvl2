@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: make install
+      - name: npm install, tests
+        run: |
+          make install
+          make test
       - name: lint
         run: make lint
