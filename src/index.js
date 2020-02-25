@@ -1,11 +1,13 @@
 import _ from 'lodash';
 import fs from 'fs';
+import parse from './utils/parsers.js';
 
 const getContent = (path) => fs.readFileSync(path, 'utf-8');
 
 export default (path1, path2) => {
+  const parseFunc = parse(path1);
   const files = [path1, path2].map((w) => getContent(w));
-  const flatObjects = files.map((w) => JSON.parse(w));
+  const flatObjects = files.map((w) => parseFunc(w));
   const string = _.flatten(flatObjects.map((w) => Object.keys(w)))
     .filter((w, index, arr) => arr.indexOf(w) === index)
     .reduce((acc, w) => {
