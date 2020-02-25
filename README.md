@@ -7,3 +7,5 @@
 [![asciicast](https://asciinema.org/a/303724.svg)](https://asciinema.org/a/303724)
 ### Format YML
 [![asciicast](https://asciinema.org/a/304643.svg)](https://asciinema.org/a/304643)
+### Format INI
+[![asciicast](https://asciinema.org/a/304650.svg)](https://asciinema.org/a/304650)

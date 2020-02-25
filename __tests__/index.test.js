@@ -18,3 +18,10 @@ test('result yaml', () => {
   const final = getContent('result.txt');
   expect(genDiff(path1, path2)).toMatch(final);
 });
+
+test('result ini', () => {
+  const path1 = getPath('before.ini');
+  const path2 = getPath('after.ini');
+  const final = getContent('result.txt');
+  expect(genDiff(path1, path2)).toMatch(final);
+});
