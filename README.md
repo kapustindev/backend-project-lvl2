@@ -9,3 +9,5 @@
 [![asciicast](https://asciinema.org/a/304643.svg)](https://asciinema.org/a/304643)
 ### Format INI
 [![asciicast](https://asciinema.org/a/304650.svg)](https://asciinema.org/a/304650)
+### Tree
+[![asciicast](https://asciinema.org/a/306621.svg)](https://asciinema.org/a/306621)
