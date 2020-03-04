@@ -4,11 +4,10 @@ import path from 'path';
 
 export default (link) => {
   const ending = path.extname(link);
-  if (ending === '.json') {
-    return JSON.parse;
-  }
-  if (ending === '.yml') {
-    return yaml.safeLoad;
-  }
-  return ini.parse;
+  const parserMap = {
+    '.json': JSON.parse,
+    '.yml': yaml.safeLoad,
+    '.ini': ini.parse,
+  };
+  return parserMap[ending];
 };

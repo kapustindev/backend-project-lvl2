@@ -8,16 +8,16 @@ const getContent = (path) => fs.readFileSync(path, 'utf-8');
 const makeFlat = (a, b) => {
   const uniqKeys = _.union(Object.keys(a), Object.keys(b));
   return uniqKeys.reduce((acc, node) => {
-    const getValue = (value1, value2) => {
+    const getData = (value1, value2) => {
       if (_.isObject(value1) && _.isObject(value2)) {
-        return { children: makeFlat(value1, value2), status: 'default' };
+        return { status: 'default', children: makeFlat(value1, value2) };
       }
       if (_.has(a, node) && _.has(b, node)) {
-        return value1 === value2 ? { value: value1, status: 'default' } : { value: value2, prevValue: value1, status: 'changed' };
+        return value1 === value2 ? { status: 'default', value: value1 } : { status: 'changed', value: value2, prevValue: value1 };
       }
-      return _.has(a, node) ? { value: value1, status: 'deleted' } : { value: value2, status: 'added' };
+      return _.has(a, node) ? { status: 'deleted', value: value1 } : { status: 'added', value: value2 };
     };
-    return { ...acc, [node]: getValue(a[node], b[node]) };
+    return { ...acc, [node]: getData(a[node], b[node]) };
   }, {});
 };
 
