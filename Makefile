@@ -7,7 +7,7 @@ lint:
 test:
 	npm test
 test-coverage:
-	npm test --coverage
+	npx jest --coverage
 build:
 	rm -rf dist
 	npm run build

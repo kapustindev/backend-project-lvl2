@@ -3,8 +3,8 @@ import _ from 'lodash';
 const stringifyValue = (data) => (_.isObject(data) ? '[complex value]' : data);
 
 const render = (tree, path = '') => {
-  const keys = Object.keys(tree);
-  return keys.reduce((acc, w) => {
+  const leafs = Object.keys(tree);
+  return leafs.reduce((acc, w) => {
     const {
       value, children, prevValue, status,
     } = tree[w];
