@@ -10,28 +10,12 @@ const makeFlat = (a, b) => {
   return uniqKeys.reduce((acc, node) => {
     const getValue = (value1, value2) => {
       if (_.isObject(value1) && _.isObject(value2)) {
-        return {
-          children: makeFlat(value1, value2),
-          status: 'default',
-        };
+        return { children: makeFlat(value1, value2), status: 'default' };
       }
       if (_.has(a, node) && _.has(b, node)) {
-        return value1 === value2 ? {
-          value: value1,
-          status: 'default',
-        } : {
-          value: value2,
-          prevValue: value1,
-          status: 'changed',
-        };
+        return value1 === value2 ? { value: value1, status: 'default' } : { value: value2, prevValue: value1, status: 'changed' };
       }
-      return _.has(a, node) ? {
-        value: value1,
-        status: 'deleted',
-      } : {
-        value: value2,
-        status: 'added',
-      };
+      return _.has(a, node) ? { value: value1, status: 'deleted' } : { value: value2, status: 'added' };
     };
     return { ...acc, [node]: getValue(a[node], b[node]) };
   }, {});
