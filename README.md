@@ -13,3 +13,5 @@
 [![asciicast](https://asciinema.org/a/306621.svg)](https://asciinema.org/a/306621)
 ### Plain
 [![asciicast](https://asciinema.org/a/307204.svg)](https://asciinema.org/a/307204)
+### JSON
+[![asciicast](https://asciinema.org/a/307488.svg)](https://asciinema.org/a/307488)
