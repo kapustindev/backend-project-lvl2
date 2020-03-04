@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import fs from 'fs';
 import parse from './utils/parsers.js';
-import render from './renderers/tree.js';
+import formatter from './formatters/index.js';
 
 const getContent = (path) => fs.readFileSync(path, 'utf-8');
 
@@ -11,7 +11,7 @@ const makeFlat = (a, b) => {
     const getValue = (value1, value2) => {
       if (_.isObject(value1) && _.isObject(value2)) {
         return {
-          value: makeFlat(value1, value2),
+          children: makeFlat(value1, value2),
           status: 'default',
         };
       }
@@ -27,7 +27,7 @@ const makeFlat = (a, b) => {
       }
       return _.has(a, node) ? {
         value: value1,
-        status: 'removed',
+        status: 'deleted',
       } : {
         value: value2,
         status: 'added',
@@ -37,10 +37,11 @@ const makeFlat = (a, b) => {
   }, {});
 };
 
-export default (path1, path2) => {
+export default (path1, path2, formatType = 'tree') => {
   const parseFunc = parse(path1);
+  const format = formatter(formatType);
   const files = [path1, path2].map((w) => getContent(w));
   const flatObjects = files.map((w) => parseFunc(w));
   const tree = makeFlat(flatObjects[0], flatObjects[1]);
-  return render(tree);
+  return format(tree);
 };

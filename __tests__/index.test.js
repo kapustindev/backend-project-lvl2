@@ -25,3 +25,10 @@ test('result ini', () => {
   const final = getContent('result.txt');
   expect(genDiff(path1, path2)).toMatch(final);
 });
+
+test('plain format', () => {
+  const path1 = getPath('before.json');
+  const path2 = getPath('after.json');
+  const final = getContent('plain-diff.txt');
+  expect(genDiff(path1, path2, 'plain')).toMatch(final);
+});

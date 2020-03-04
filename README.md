@@ -11,3 +11,5 @@
 [![asciicast](https://asciinema.org/a/304650.svg)](https://asciinema.org/a/304650)
 ### Tree
 [![asciicast](https://asciinema.org/a/306621.svg)](https://asciinema.org/a/306621)
+### Plain
+[![asciicast](https://asciinema.org/a/307204.svg)](https://asciinema.org/a/307204)
