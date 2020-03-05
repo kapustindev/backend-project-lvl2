@@ -1,0 +1,82 @@
+{
+  "common": {
+    "status": "default",
+    "children": {
+      "setting1": {
+        "status": "default",
+        "value": "Value 1"
+      },
+      "setting2": {
+        "status": "deleted",
+        "value": 200
+      },
+      "setting3": {
+        "status": "changed",
+        "value": {
+          "key": "value"
+        },
+        "prevValue": true
+      },
+      "setting6": {
+        "status": "default",
+        "children": {
+          "key": {
+            "status": "default",
+            "value": "value"
+          },
+          "ops": {
+            "status": "added",
+            "value": "vops"
+          }
+        }
+      },
+      "follow": {
+        "status": "added",
+        "value": false
+      },
+      "setting4": {
+        "status": "added",
+        "value": "blah blah"
+      },
+      "setting5": {
+        "status": "added",
+        "value": {
+          "key5": "value5"
+        }
+      }
+    }
+  },
+  "group1": {
+    "status": "default",
+    "children": {
+      "baz": {
+        "status": "changed",
+        "value": "bars",
+        "prevValue": "bas"
+      },
+      "foo": {
+        "status": "default",
+        "value": "bar"
+      },
+      "nest": {
+        "status": "changed",
+        "value": "str",
+        "prevValue": {
+          "key": "value"
+        }
+      }
+    }
+  },
+  "group2": {
+    "status": "deleted",
+    "value": {
+      "abc": 12345
+    }
+  },
+  "group3": {
+    "status": "added",
+    "value": {
+      "fee": 100500
+    }
+  }
+}
