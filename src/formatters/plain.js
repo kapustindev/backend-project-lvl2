@@ -3,21 +3,21 @@ import _ from 'lodash';
 const stringifyValue = (data) => (_.isObject(data) ? '[complex value]' : data);
 
 const render = (tree, path = '') => {
-  const leafs = Object.keys(tree);
-  return leafs.reduce((acc, w) => {
+  const newArr = [...tree];
+  return newArr.reduce((acc, w) => {
     const {
-      value, children, prevValue, status,
-    } = tree[w];
-    const getBegin = () => `Property '${path}${w}' was ${status}`;
+      name, status, value, prevValue,
+    } = w;
+    const getBegin = () => `Property '${path}${name}' was ${status}`;
     const statusMap = {
       added: `${getBegin()} with value: ${stringifyValue(value)}`,
       deleted: `${getBegin()}`,
       changed: `${getBegin()} from ${stringifyValue(prevValue)} to ${stringifyValue(value)}`,
     };
-    if (!_.has(tree[w], 'children')) {
+    if (status !== 'nested') {
       return status === 'default' ? acc : [...acc, statusMap[status]];
     }
-    return [...acc, ...render(children, `${path}${w}.`)];
+    return [...acc, ...render(value, `${path}${name}.`)];
   }, []);
 };
 

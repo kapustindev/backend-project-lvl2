@@ -1,25 +1,30 @@
 import _ from 'lodash';
 
-const gap = '  ';
+const space = (num) => '  '.repeat(num);
 
 export default (tree) => {
   const render = (leaf, depth = 1) => {
-    const keys = Object.keys(leaf);
-    return keys.reduce((acc, node) => {
+    const newArr = [...leaf];
+    return newArr.reduce((acc, w) => {
       const {
-        value, children, status, prevValue,
-      } = leaf[node];
-      const space = gap.repeat(depth);
-      const stringify = (data) => (_.isObject(data) ? `{\n${render(data, depth + 2)}${space}${gap}}` : data);
-      const unite = (data, operator = gap) => `${space}${operator}${node}: ${_.has(leaf[node], 'children') ? stringify(children)
-        : (typeof data === 'boolean' ? data.toString() : stringify(data)) || leaf[node]}\n`;
-      const statusMap = {
-        default: unite(value),
-        changed: `${unite(prevValue, '- ')}${unite(value, '+ ')}`,
-        added: unite(value, '+ '),
-        deleted: unite(value, '- '),
+        name, status, value, prevValue,
+      } = w;
+      const stringify = (data) => {
+        if (!_.isObject(data)) {
+          return data;
+        }
+        const [objName, objValue] = _.flatten(Object.entries(data));
+        return `{\n${space(depth + 2)}${objName}: ${objValue}${space(depth)} \n${space(depth + 1)}}`;
       };
-      return `${acc}${status ? statusMap[status] : statusMap.default}`;
+      const uniteAll = (data, operator = '  ') => `${space(depth)}${operator}${name}: ${_.isArray(data) ? `{\n${render(data, depth + 2)}${space(depth)}  }` : stringify(data)}\n`;
+      const statusMap = {
+        default: uniteAll(value),
+        nested: uniteAll(value),
+        changed: `${uniteAll(prevValue, '- ')}${uniteAll(value, '+ ')}`,
+        added: uniteAll(value, '+ '),
+        deleted: uniteAll(value, '- '),
+      };
+      return `${acc}${statusMap[status]}`;
     }, '');
   };
   return `{\n${render(tree)}}`;

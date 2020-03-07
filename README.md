@@ -15,6 +15,7 @@ $ make test
 
 ## How it works
 ### Help
+Use `gendiff -h` for help.
 [![asciicast](https://asciinema.org/a/308212.svg)](https://asciinema.org/a/308212)
 ### Format JSON
 [![asciicast](https://asciinema.org/a/303724.svg)](https://asciinema.org/a/303724)
