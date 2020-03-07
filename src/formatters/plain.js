@@ -12,7 +12,7 @@ const render = (tree, path = '') => {
     const statusMap = {
       added: `${getBegin()} with value: ${stringifyValue(value)}`,
       deleted: `${getBegin()}`,
-      changed: `${getBegin()} from ${stringifyValue(value)} to ${stringifyValue(prevValue)}`,
+      changed: `${getBegin()} from ${stringifyValue(prevValue)} to ${stringifyValue(value)}`,
     };
     if (!_.has(tree[w], 'children')) {
       return status === 'default' ? acc : [...acc, statusMap[status]];
