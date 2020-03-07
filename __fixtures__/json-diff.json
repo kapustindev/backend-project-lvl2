@@ -1,82 +1,98 @@
-{
-  "common": {
-    "status": "default",
-    "children": {
-      "setting1": {
+[
+  {
+    "name": "common",
+    "status": "nested",
+    "value": [
+      {
+        "name": "setting1",
         "status": "default",
         "value": "Value 1"
       },
-      "setting2": {
+      {
+        "name": "setting2",
         "status": "deleted",
         "value": 200
       },
-      "setting3": {
+      {
+        "name": "setting3",
         "status": "changed",
         "value": {
           "key": "value"
         },
         "prevValue": true
       },
-      "setting6": {
-        "status": "default",
-        "children": {
-          "key": {
+      {
+        "name": "setting6",
+        "status": "nested",
+        "value": [
+          {
+            "name": "key",
             "status": "default",
             "value": "value"
           },
-          "ops": {
+          {
+            "name": "ops",
             "status": "added",
             "value": "vops"
           }
-        }
+        ]
       },
-      "follow": {
+      {
+        "name": "follow",
         "status": "added",
         "value": false
       },
-      "setting4": {
+      {
+        "name": "setting4",
         "status": "added",
         "value": "blah blah"
       },
-      "setting5": {
+      {
+        "name": "setting5",
         "status": "added",
         "value": {
           "key5": "value5"
         }
       }
-    }
+    ]
   },
-  "group1": {
-    "status": "default",
-    "children": {
-      "baz": {
+  {
+    "name": "group1",
+    "status": "nested",
+    "value": [
+      {
+        "name": "baz",
         "status": "changed",
         "value": "bars",
         "prevValue": "bas"
       },
-      "foo": {
+      {
+        "name": "foo",
         "status": "default",
         "value": "bar"
       },
-      "nest": {
+      {
+        "name": "nest",
         "status": "changed",
         "value": "str",
         "prevValue": {
           "key": "value"
         }
       }
-    }
+    ]
   },
-  "group2": {
+  {
+    "name": "group2",
     "status": "deleted",
     "value": {
       "abc": 12345
     }
   },
-  "group3": {
+  {
+    "name": "group3",
     "status": "added",
     "value": {
       "fee": 100500
     }
   }
-}
+]

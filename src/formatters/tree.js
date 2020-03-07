@@ -14,7 +14,7 @@ export default (tree) => {
           return data;
         }
         const [objName, objValue] = _.flatten(Object.entries(data));
-        return `{\n${space(depth + 2)}${objName}: ${objValue}${space(depth)} \n${space(depth + 1)}}`;
+        return `{\n${space(depth + 3)}${objName}: ${objValue}\n${space(depth + 1)}}`;
       };
       const uniteAll = (data, operator = '  ') => `${space(depth)}${operator}${name}: ${_.isArray(data) ? `{\n${render(data, depth + 2)}${space(depth)}  }` : stringify(data)}\n`;
       const statusMap = {
