@@ -5,7 +5,9 @@ publish:
 lint:
 	npx eslint .
 test:
-	npx jest --coverage
+	npm test
+test-coverage:
+	npm test -- --coverage
 build:
 	rm -rf dist
 	npm run build

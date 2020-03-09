@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import genDiff from '..';
+import genDiff from '../src';
 
-const getPath = (filename) => path.join('__fixtures__', filename);
+const getPath = (filename) => path.join('.', '__fixtures__', filename);
 const getContent = (filename) => fs.readFileSync(getPath(filename), 'utf-8');
 
 test.each([
