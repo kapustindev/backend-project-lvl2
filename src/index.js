@@ -9,17 +9,25 @@ const getExtension = (filepath) => path.extname(filepath).slice(1);
 
 const makeAst = (a, b) => {
   const uniqKeys = _.union(Object.keys(a), Object.keys(b));
-  return uniqKeys.map((name) => {
-    const [value1, value2] = [a[name], b[name]];
+  return uniqKeys.map((key) => {
+    const value1 = a[key];
+    const value2 = b[key];
+
     if (_.isObject(value1) && _.isObject(value2)) {
-      return { name, status: 'nested', value: makeAst(value1, value2) };
+      return { key, status: 'nested', children: makeAst(value1, value2) };
     }
-    if (_.has(a, name) && _.has(b, name)) {
-      return value1 === value2 ? { name, status: 'default', value: value1 } : {
-        name, status: 'changed', value: value2, prevValue: value1,
-      };
+    if (_.has(a, key) && !_.has(b, key)) {
+      return { key, status: 'deleted', value: value1 };
     }
-    return _.has(a, name) ? { name, status: 'deleted', value: value1 } : { name, status: 'added', value: value2 };
+    if (_.has(b, key) && !_.has(a, key)) {
+      return { key, status: 'added', value: value2 };
+    }
+    if (value1 === value2) {
+      return { key, status: 'notChanged', value: value1 };
+    }
+    return {
+      key, status: 'changed', value: value2, prevValue: value1,
+    };
   });
 };
 

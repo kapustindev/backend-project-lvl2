@@ -1,20 +1,20 @@
 [
   {
-    "name": "common",
+    "key": "common",
     "status": "nested",
-    "value": [
+    "children": [
       {
-        "name": "setting1",
-        "status": "default",
+        "key": "setting1",
+        "status": "notChanged",
         "value": "Value 1"
       },
       {
-        "name": "setting2",
+        "key": "setting2",
         "status": "deleted",
         "value": 200
       },
       {
-        "name": "setting3",
+        "key": "setting3",
         "status": "changed",
         "value": {
           "key": "value"
@@ -22,33 +22,33 @@
         "prevValue": true
       },
       {
-        "name": "setting6",
+        "key": "setting6",
         "status": "nested",
-        "value": [
+        "children": [
           {
-            "name": "key",
-            "status": "default",
+            "key": "key",
+            "status": "notChanged",
             "value": "value"
           },
           {
-            "name": "ops",
+            "key": "ops",
             "status": "added",
             "value": "vops"
           }
         ]
       },
       {
-        "name": "follow",
+        "key": "follow",
         "status": "added",
         "value": false
       },
       {
-        "name": "setting4",
+        "key": "setting4",
         "status": "added",
         "value": "blah blah"
       },
       {
-        "name": "setting5",
+        "key": "setting5",
         "status": "added",
         "value": {
           "key5": "value5"
@@ -57,22 +57,22 @@
     ]
   },
   {
-    "name": "group1",
+    "key": "group1",
     "status": "nested",
-    "value": [
+    "children": [
       {
-        "name": "baz",
+        "key": "baz",
         "status": "changed",
         "value": "bars",
         "prevValue": "bas"
       },
       {
-        "name": "foo",
-        "status": "default",
+        "key": "foo",
+        "status": "notChanged",
         "value": "bar"
       },
       {
-        "name": "nest",
+        "key": "nest",
         "status": "changed",
         "value": "str",
         "prevValue": {
@@ -82,14 +82,14 @@
     ]
   },
   {
-    "name": "group2",
+    "key": "group2",
     "status": "deleted",
     "value": {
       "abc": 12345
     }
   },
   {
-    "name": "group3",
+    "key": "group3",
     "status": "added",
     "value": {
       "fee": 100500

@@ -2,29 +2,33 @@ import _ from 'lodash';
 
 const space = (num) => '  '.repeat(num);
 
+const stringify = (data, deep) => {
+  if (!_.isObject(data)) {
+    return data;
+  }
+  const [objName, objValue] = _.flatten(Object.entries(data));
+  return `{\n${space(deep + 3)}${objName}: ${objValue}\n${space(deep + 1)}}`;
+};
+
 export default (tree) => {
   const render = (leaf, depth = 1) => {
     const newArr = [...leaf];
-    return newArr.reduce((acc, w) => {
+    return newArr.reduce((acc, node) => {
       const {
-        name, status, value, prevValue,
-      } = w;
-      const stringify = (data) => {
-        if (!_.isObject(data)) {
-          return data;
-        }
-        const [objName, objValue] = _.flatten(Object.entries(data));
-        return `{\n${space(depth + 3)}${objName}: ${objValue}\n${space(depth + 1)}}`;
-      };
-      const uniteAll = (data, operator = '  ') => `${space(depth)}${operator}${name}: ${_.isArray(data) ? `{\n${render(data, depth + 2)}${space(depth)}  }` : stringify(data)}\n`;
+        key, status, children, value, prevValue,
+      } = node;
+
       const statusMap = {
-        default: uniteAll(value),
-        nested: uniteAll(value),
-        changed: `${uniteAll(prevValue, '- ')}${uniteAll(value, '+ ')}`,
-        added: uniteAll(value, '+ '),
-        deleted: uniteAll(value, '- '),
+        notChanged: `${space(depth + 1)}${key}: ${stringify(value, depth)}`,
+        changed: `${space(depth)}- ${key}: ${stringify(prevValue, depth)}\n${space(depth)}+ ${key}: ${stringify(value, depth)}`,
+        added: `${space(depth)}+ ${key}: ${stringify(value, depth)}`,
+        deleted: `${space(depth)}- ${key}: ${stringify(value, depth)}`,
       };
-      return `${acc}${statusMap[status]}`;
+
+      if (!children) {
+        return `${acc}${statusMap[status]}\n`;
+      }
+      return `${acc}${space(depth + 1)}${key}: {\n${render(children, depth + 2)}${space(depth + 1)}}\n`;
     }, '');
   };
   return `{\n${render(tree)}}`;

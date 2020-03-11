@@ -4,21 +4,23 @@ const stringifyValue = (data) => (_.isObject(data) ? '[complex value]' : data);
 
 const render = (tree, path = '') => {
   const newArr = [...tree];
-  return newArr.reduce((acc, w) => {
+  return newArr.reduce((acc, node) => {
     const {
-      name, status, value, prevValue,
-    } = w;
-    const getBegin = () => `Property '${path}${name}' was ${status}`;
+      key, status, children, value, prevValue,
+    } = node;
+
     const statusMap = {
-      added: `${getBegin()} with value: ${stringifyValue(value)}`,
-      deleted: `${getBegin()}`,
-      changed: `${getBegin()} from ${stringifyValue(prevValue)} to ${stringifyValue(value)}`,
+      added: `Property '${path}${key}' was ${status} with value: ${stringifyValue(value)}`,
+      deleted: `Property '${path}${key}' was ${status}`,
+      changed: `Property '${path}${key}' was ${status} from ${stringifyValue(prevValue)} to ${stringifyValue(value)}`,
+      notChanged: '',
     };
-    if (status !== 'nested') {
-      return status === 'default' ? acc : [...acc, statusMap[status]];
+
+    if (!children) {
+      return [...acc, statusMap[status]];
     }
-    return [...acc, ...render(value, `${path}${name}.`)];
+    return [...acc, ...render(children, `${path}${key}.`)];
   }, []);
 };
 
-export default (ast) => render(ast).join('\n');
+export default (ast) => _.compact(render(ast)).join('\n');
