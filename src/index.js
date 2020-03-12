@@ -23,7 +23,7 @@ const makeAst = (a, b) => {
       return { key, status: 'added', value: value2 };
     }
     if (value1 === value2) {
-      return { key, status: 'notChanged', value: value1 };
+      return { key, status: 'unchanged', value: value1 };
     }
     return {
       key, status: 'changed', value: value2, prevValue: value1,

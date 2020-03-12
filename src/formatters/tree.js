@@ -12,24 +12,27 @@ const stringify = (data, deep) => {
 
 export default (tree) => {
   const render = (leaf, depth = 1) => {
-    const newArr = [...leaf];
-    return newArr.reduce((acc, node) => {
+    const result = leaf.reduce((acc, node) => {
       const {
         key, status, children, value, prevValue,
       } = node;
 
-      const statusMap = {
-        notChanged: `${space(depth + 1)}${key}: ${stringify(value, depth)}`,
-        changed: `${space(depth)}- ${key}: ${stringify(prevValue, depth)}\n${space(depth)}+ ${key}: ${stringify(value, depth)}`,
-        added: `${space(depth)}+ ${key}: ${stringify(value, depth)}`,
-        deleted: `${space(depth)}- ${key}: ${stringify(value, depth)}`,
-      };
-
-      if (!children) {
-        return `${acc}${statusMap[status]}\n`;
+      switch (status) {
+        case 'added':
+          return `${acc}${space(depth)}+ ${key}: ${stringify(value, depth)}\n`;
+        case 'deleted':
+          return `${acc}${space(depth)}- ${key}: ${stringify(value, depth)}\n`;
+        case 'changed':
+          return `${acc}${space(depth)}- ${key}: ${stringify(prevValue, depth)}\n${space(depth)}+ ${key}: ${stringify(value, depth)}\n`;
+        case 'unchanged':
+          return `${acc}${space(depth + 1)}${key}: ${stringify(value, depth)}\n`;
+        case 'nested':
+          return `${acc}${space(depth + 1)}${key}: {\n${render(children, depth + 2)}${space(depth + 1)}}\n`;
+        default:
+          throw new Error(`Error! '${status}' is invalid`);
       }
-      return `${acc}${space(depth + 1)}${key}: {\n${render(children, depth + 2)}${space(depth + 1)}}\n`;
     }, '');
+    return result;
   };
   return `{\n${render(tree)}}`;
 };
