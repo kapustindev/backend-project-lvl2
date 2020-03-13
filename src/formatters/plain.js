@@ -8,23 +8,14 @@ const render = (tree, path = '') => {
       key, status, children, value, prevValue,
     } = node;
 
-    const makeLine = () => {
-      switch (status) {
-        case 'added':
-          return [...acc, `Property '${path}${key}' was ${status} with value: ${stringifyValue(value)}`];
-        case 'deleted':
-          return [...acc, `Property '${path}${key}' was ${status}`];
-        case 'changed':
-          return [...acc, `Property '${path}${key}' was ${status} from ${stringifyValue(prevValue)} to ${stringifyValue(value)}`];
-        case 'unchanged':
-          return [...acc];
-        case 'nested':
-          return [...acc, ...render(children, `${path}${key}.`)];
-        default:
-          throw new Error(`Error! '${status}' is invalid`);
-      }
+    const statusMap = {
+      added: `Property '${path}${key}' was ${status} with value: ${stringifyValue(value)}`,
+      deleted: `Property '${path}${key}' was ${status}`,
+      changed: `Property '${path}${key}' was ${status} from ${stringifyValue(prevValue)} to ${stringifyValue(value)}`,
+      unchanged: '',
+      nested: children ? render(children, `${path}${key}.`) : '',
     };
-    return makeLine();
+    return _.flatten([...acc, statusMap[status]]);
   }, []);
   return result;
 };

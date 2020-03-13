@@ -11,28 +11,21 @@ const stringify = (data, deep) => {
 };
 
 export default (tree) => {
-  const render = (leaf, depth = 1) => {
-    const result = leaf.reduce((acc, node) => {
+  const render = (subtree, depth = 1) => {
+    const result = subtree.reduce((acc, node) => {
       const {
-        key, status, children, value, prevValue,
+        key, children, status, value, prevValue,
       } = node;
-
-      switch (status) {
-        case 'added':
-          return `${acc}${space(depth)}+ ${key}: ${stringify(value, depth)}\n`;
-        case 'deleted':
-          return `${acc}${space(depth)}- ${key}: ${stringify(value, depth)}\n`;
-        case 'changed':
-          return `${acc}${space(depth)}- ${key}: ${stringify(prevValue, depth)}\n${space(depth)}+ ${key}: ${stringify(value, depth)}\n`;
-        case 'unchanged':
-          return `${acc}${space(depth + 1)}${key}: ${stringify(value, depth)}\n`;
-        case 'nested':
-          return `${acc}${space(depth + 1)}${key}: {\n${render(children, depth + 2)}${space(depth + 1)}}\n`;
-        default:
-          throw new Error(`Error! '${status}' is invalid`);
-      }
-    }, '');
-    return result;
+      const statusMap = {
+        added: `${space(depth)}+ ${key}: ${stringify(value, depth)}`,
+        deleted: `${space(depth)}- ${key}: ${stringify(value, depth)}`,
+        changed: [`${space(depth)}- ${key}: ${stringify(prevValue, depth)}`, `${space(depth)}+ ${key}: ${stringify(value, depth)}`],
+        unchanged: `${space(depth + 1)}${key}: ${stringify(value, depth)}`,
+        nested: `${space(depth + 1)}${key}: {\n${children ? render(children, depth + 2) : ''}\n${space(depth + 1)}}`,
+      };
+      return _.flatten([...acc, statusMap[status]]);
+    }, []);
+    return result.join('\n');
   };
-  return `{\n${render(tree)}}`;
+  return `{\n${render(tree)}\n}`;
 };
