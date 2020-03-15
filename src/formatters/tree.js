@@ -12,20 +12,22 @@ const stringify = (data, deep) => {
 
 export default (tree) => {
   const render = (subtree, depth = 1) => {
-    const result = subtree.reduce((acc, node) => {
+    const result = subtree.map((node) => {
       const {
         key, children, status, value, prevValue,
       } = node;
+
       const statusMap = {
-        added: `${space(depth)}+ ${key}: ${stringify(value, depth)}`,
-        deleted: `${space(depth)}- ${key}: ${stringify(value, depth)}`,
-        changed: [`${space(depth)}- ${key}: ${stringify(prevValue, depth)}`, `${space(depth)}+ ${key}: ${stringify(value, depth)}`],
-        unchanged: `${space(depth + 1)}${key}: ${stringify(value, depth)}`,
-        nested: `${space(depth + 1)}${key}: {\n${children ? render(children, depth + 2) : ''}\n${space(depth + 1)}}`,
+        added: () => `${space(depth)}+ ${key}: ${stringify(value, depth)}`,
+        deleted: () => `${space(depth)}- ${key}: ${stringify(value, depth)}`,
+        changed: () => [`${space(depth)}- ${key}: ${stringify(prevValue, depth)}`, `${space(depth)}+ ${key}: ${stringify(value, depth)}`],
+        unchanged: () => `${space(depth + 1)}${key}: ${stringify(value, depth)}`,
+        nested: () => `${space(depth + 1)}${key}: {\n${render(children, depth + 2)}\n${space(depth + 1)}}`,
       };
-      return _.flatten([...acc, statusMap[status]]);
+
+      return statusMap[status]();
     }, []);
-    return result.join('\n');
+    return _.flattenDeep(result).join('\n');
   };
   return `{\n${render(tree)}\n}`;
 };
