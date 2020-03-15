@@ -26,7 +26,7 @@ export default (tree) => {
       };
 
       return statusMap[status]();
-    }, []);
+    });
     return _.flattenDeep(result).join('\n');
   };
   return `{\n${render(tree)}\n}`;
